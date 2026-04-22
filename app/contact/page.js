@@ -1,7 +1,7 @@
 import Image from "next/image";
 import ContactForm from "./ContactForm";
 
-export const metadata = { title: "Contact | Madi & Jace Coffee Co." };
+export const metadata = { title: "Contact | Tin Roof Coffee Co." };
 
 export default function Page() {
   return (

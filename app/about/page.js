@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export const metadata = { title: "About | Madi & Jace Coffee Co." };
+export const metadata = { title: "About | Tin Roof Coffee Co." };
 
 export default function Page() {
   return (

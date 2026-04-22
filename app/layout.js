@@ -2,8 +2,8 @@ import "./globals.css";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Madi & Jace Coffee Co.",
-  description: "Slow mornings, warm mugs, good company at Madi & Jace Coffee Co.",
+  title: "Tin Roof Coffee Co.",
+  description: "Slow mornings, warm mugs, good company at Tin Roof Coffee Co.",
 };
 
 export default function RootLayout({ children }) {
@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
       <body>
         <header className="site-header">
           <div className="container nav-wrap">
-            <Link className="brand" href="/">Madi & Jace Coffee Co.</Link>
+            <Link className="brand" href="/">Tin Roof Coffee Co.</Link>
             <nav className="main-nav" aria-label="Primary">
               <Link href="/">Home</Link>
               <Link href="/menu">Menu</Link>
@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
         {children}
         <footer className="site-footer">
           <div className="container footer-wrap">
-            <p>© 2026 Madi & Jace Coffee Co. Placeholder content.</p>
+            <p>© 2026 Tin Roof Coffee Co. Placeholder content.</p>
             <p>Instagram | Facebook | Privacy Policy</p>
           </div>
         </footer>

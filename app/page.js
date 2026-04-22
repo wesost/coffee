@@ -55,7 +55,7 @@ export default function HomePage() {
           <div>
             <h2>Our Story</h2>
             <p>
-              We started Madi & Jace to create a calm, welcoming space where
+              We started Tin Roof Coffee Co. to create a calm, welcoming space where
               neighbors can pause, connect, and enjoy thoughtfully brewed coffee.
             </p>
           </div>
