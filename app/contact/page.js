@@ -17,10 +17,18 @@ export default function Page() {
 
           <aside className="contact-card">
             <h2>Shop Info</h2>
-            <p>Email: hello@example.com</p>
-            <p>Phone: (000) 000-0000</p>
-            <p>Address: 123 Cozy Lane, Coffeeville, ST 00000</p>
-            <p>Hours: Mon-Fri 6:30 AM-5:00 PM, Sat-Sun 7:00 AM-6:00 PM</p>
+            <p>
+              <strong>Email:</strong>{" "}
+              <a href="mailto:trcoffeecompany@gmail.com">trcoffeecompany@gmail.com</a>
+            </p>
+            <p>
+              <strong>Instagram:</strong>{" "}
+              <a href="https://instagram.com/tinroof.coffeeco">@tinroof.coffeeco</a>
+            </p>
+            <p>
+              We are currently finalizing regular service hours and location details.
+              Stay tuned on Instagram for the latest updates.
+            </p>
           </aside>
         </div>
       </div>
