@@ -1,7 +1,19 @@
 import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
+
+const CONTACT_TO = process.env.CONTACT_TO_EMAIL || "trcoffeecompany@gmail.com";
 
 function isValidEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function escapeHtml(value) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 export async function POST(request) {
@@ -29,19 +41,54 @@ export async function POST(request) {
       );
     }
 
-    // Placeholder behavior: logs message server-side for now.
-    console.log("Contact form submission", {
-      name,
-      email,
-      message,
-      submittedAt: new Date().toISOString(),
+    const gmailUser = process.env.GMAIL_USER;
+    const gmailPass = process.env.GMAIL_APP_PASSWORD;
+
+    if (!gmailUser || !gmailPass) {
+      console.error("Contact form: missing GMAIL_USER or GMAIL_APP_PASSWORD");
+      return NextResponse.json(
+        { error: "Email is not configured yet. Please try again later." },
+        { status: 503 }
+      );
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: gmailUser,
+        pass: gmailPass,
+      },
+    });
+
+    await transporter.sendMail({
+      from: `"Tin Roof Coffee Co. Website" <${gmailUser}>`,
+      to: CONTACT_TO,
+      replyTo: email,
+      subject: `New contact message from ${name}`,
+      text: [
+        "You received a new message from the Tin Roof Coffee Co. website.",
+        "",
+        `Name: ${name}`,
+        `Email: ${email}`,
+        "",
+        "Message:",
+        message,
+      ].join("\n"),
+      html: `
+        <p>You received a new message from the Tin Roof Coffee Co. website.</p>
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Message:</strong></p>
+        <p>${escapeHtml(message).replaceAll("\n", "<br>")}</p>
+      `,
     });
 
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (error) {
+    console.error("Contact form email failed:", error);
     return NextResponse.json(
-      { error: "Invalid request payload. Please try again." },
-      { status: 400 }
+      { error: "Unable to send message right now. Please try again later." },
+      { status: 500 }
     );
   }
 }

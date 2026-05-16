@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const initialForm = {
   name: "",
@@ -8,10 +8,25 @@ const initialForm = {
   message: "",
 };
 
+const SUCCESS_DISPLAY_MS = 3500;
+
 export default function ContactForm() {
   const [formData, setFormData] = useState(initialForm);
   const [status, setStatus] = useState({ type: "", text: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    if (!showSuccess) return undefined;
+
+    const timer = window.setTimeout(() => {
+      setShowSuccess(false);
+      setFormData(initialForm);
+      setStatus({ type: "", text: "" });
+    }, SUCCESS_DISPLAY_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [showSuccess]);
 
   function onChange(event) {
     const { name, value } = event.target;
@@ -39,8 +54,7 @@ export default function ContactForm() {
         return;
       }
 
-      setStatus({ type: "success", text: "Message sent! We'll get back to you soon." });
-      setFormData(initialForm);
+      setShowSuccess(true);
     } catch {
       setStatus({
         type: "error",
@@ -49,6 +63,26 @@ export default function ContactForm() {
     } finally {
       setIsSubmitting(false);
     }
+  }
+
+  if (showSuccess) {
+    return (
+      <section
+        className="contact-form contact-success"
+        role="status"
+        aria-live="polite"
+        aria-label="Message sent confirmation"
+      >
+        <div className="contact-success-icon" aria-hidden="true">
+          ✓
+        </div>
+        <h2 className="contact-success-title">Message sent</h2>
+        <p className="contact-success-text">
+          Thanks for reaching out, {formData.name.split(" ")[0] || "friend"}! We&apos;ll get back to
+          you soon.
+        </p>
+      </section>
+    );
   }
 
   return (

@@ -5,6 +5,9 @@ import Image from "next/image";
 export const metadata = {
   title: "Tin Roof Coffee Co.",
   description: "We strive to make great coffee and be great people.",
+  icons: {
+    icon: "/images/favicon.png",
+  },
 };
 
 export default function RootLayout({ children }) {
